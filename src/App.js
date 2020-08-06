@@ -20,6 +20,7 @@ import CarListRender from "./components/RenderProps/CarsListRender";
 import Parent from "./components/Children/Parent";
 
 import "./App.css";
+import CarsListRender from "./components/RenderProps/CarsListRender";
 
 class App extends Component {
 	render() {
@@ -28,13 +29,53 @@ class App extends Component {
 				<Header />
 				<div className="content">
 					<Switch>
-						{/* Presentational */}
-
+            {/* Presentational */}
+            <Route 
+              path='/starwars_presentational' component={StarWarsContainer}/>
 						{/* HOC */}
+              <Route path='/car_list' component={CarsList}/>
+              <Route path='/starwars' component={StarWars}/>
+            {/* Render Props */}
+            <Route
+              path='/starwars_renderprops'
+              render = { () => {
+                return (
+                  <>
+                    <DataFetcher url='https://swapi.co/api/people/1'
+                      render={(data) => (
+                        <StarWarsRender data={data}/>
+                      )}
+                    />
+                    <DataFetcher url='https://swapi.co/api/people/2'
+                      render={(data) => (
+                      <StarWarsRender data={data}/>
+                    )}
+                    />
+                  </>
+                )
+              }}
+            />
+            <Route 
+              path='/cars_list_renderprops' 
+              render={ () => {
+                return (
+                  <>
+                    <DataFetcher 
+                      url='/api/cars_list/1'
+                      render={ (data) => { return <CarsListRender data={data}/>
+                      }}
+                    />
+                    <DataFetcher 
+                      url='/api/cars_list/2'
+                      render={ (data) => { return <CarsListRender data={data}/>
+                      }}
+                    />
+                  </>
+                )
+              }}
+            />
 
-						{/* Render Props */}
-
-						{/* Children */}
+            {/* Children */}
 					</Switch>
 				</div>
 			</div>
